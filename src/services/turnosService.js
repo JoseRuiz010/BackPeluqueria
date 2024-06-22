@@ -43,4 +43,28 @@ const reservarTurno = async (data) => {
     }
 };
 
-module.exports = { getTurnos, createTurno, reservarTurno };
+const cancelarReserva = async (data) => {
+    const { fecha, hora } = data;
+
+    try {
+        const turno = await Turno.findOne({ fecha, hora });
+
+        if (!turno) {
+            throw new Error('Turno no encontrado');
+        }
+
+        if (!turno.reservado) {
+            throw new Error('El turno no está reservado');
+        }
+
+        turno.cliente = null;
+        turno.medioDePago = null;
+        turno.reservado = false;
+
+        return await turno.save();
+    } catch (error) {
+        throw new Error('Error al cancelar la reserva');
+    }
+};
+
+module.exports = { getTurnos, createTurno, reservarTurno,cancelarReserva};

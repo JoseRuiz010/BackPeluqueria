@@ -75,7 +75,7 @@ const loginUser = async (data) => {
             throw new Error('Usuario no encontrado');
         }
 
-        const isMatch = await bcrypt.compare(password, user.password);
+        const isMatch = password === user.password;
         if (!isMatch) {
             throw new Error('Credenciales inválidas');
         }

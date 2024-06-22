@@ -1,4 +1,4 @@
-const { getTurnos, createTurno, reservarTurno } = require('../services/turnosService');
+const { getTurnos, createTurno, reservarTurno,cancelarReserva } = require('../services/turnosService');
 
 const getTurnosHandler = async (req, res) => {
     try {
@@ -26,5 +26,13 @@ const reservarTurnoHandler = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+const cancelarTurnoHandler = async (req, res) => {
+    try {
+        const cancelarRe  = await cancelarReserva(req.body);
+        res.status(200).json(cancelarRe);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
 
-module.exports = { getTurnosHandler, createTurnoHandler, reservarTurnoHandler };
+module.exports = { getTurnosHandler, createTurnoHandler, reservarTurnoHandler,cancelarTurnoHandler };
